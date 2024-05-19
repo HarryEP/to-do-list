@@ -5,6 +5,18 @@
   </head>
   <body>
     <h1>To do list:</h1>
-    <p>list will go here</p>
+    <ul id="items"></ul>
+    <script>
+      fetch("/items")
+        .then((response) => response.json())
+        .then((data) => {
+          const itemList = document.getElementById("items");
+          data.forEach((item) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = item.item;
+            itemList.appendChild(listItem);
+          });
+        });
+    </script>
   </body>
 </html>
