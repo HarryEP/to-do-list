@@ -1,0 +1,9 @@
+DROP DATABASE IF EXISTS todo;
+CREATE DATABASE todo;
+
+\c  todo;
+
+CREATE TABLE IF NOT EXISTS todolist (
+    todo_id GENERATED ALWAYS AS IDENTITY,
+    item TEXT NOT NULL
+);
