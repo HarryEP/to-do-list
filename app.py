@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
@@ -24,13 +24,18 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 
 @app.route('/')
 def index():
+    return render_template('index.html'), 200
+
+
+@app.route('/items')
+def get_items():
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM todolist;")
-        todolist = cur.fetchall()
+        all_items = cur.fetchall()
     conn.close()
-    return jsonify(todolist)
+    return jsonify(all_items), 200
 
 
 if __name__ == "__main__":
