@@ -4,7 +4,8 @@
     <title>To-Do List</title>
   </head>
   <body>
-    <h1>To do list:</h1>
+    <h1>To do list page</h1>
+    <h3>List:</h3>
     <ul id="items"></ul>
     <script>
       fetch("/items")
@@ -13,10 +14,16 @@
           const itemList = document.getElementById("items");
           data.forEach((item) => {
             const listItem = document.createElement("li");
-            listItem.textContent = item.item;
+            listItem.textContent = `${item.id} ${item.item}`;
             itemList.appendChild(listItem);
           });
         });
     </script>
+    <h3>Add item</h3>
+    <form action="/add_item" method="post">
+      <label for="item">Item:</label>
+      <input type="text" id="item" name="item" />
+      <input type="submit" value="Add Item" />
+    </form>
   </body>
 </html>

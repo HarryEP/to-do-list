@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request, redirect
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
@@ -32,10 +32,22 @@ def get_items():
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM todolist;")
+        cur.execute("SELECT todo_id as id, item FROM todolist;")
         all_items = cur.fetchall()
     conn.close()
     return jsonify(all_items), 200
+
+
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    new_item = request.form['item']
+    conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
+                          os.environ["DB_PASS"], os.environ["DB_USER"])
+    with conn.cursor() as cur:
+        cur.execute("INSERT INTO todolist (item) VALUES (%s)", (new_item,))
+    conn.commit()
+    conn.close()
+    return redirect('/')
 
 
 @app.errorhandler(404)
