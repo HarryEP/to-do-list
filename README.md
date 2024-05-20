@@ -14,7 +14,8 @@ To connect to said database, create an `.env` file with:
 - DB_NAME=######
 - DB_HOST=######
 - DB_PASS=######
-  for the username, database name, host and password respectfully.
+
+for the username, database name, host and password respectfully.
 
 ## Running The Application
 
