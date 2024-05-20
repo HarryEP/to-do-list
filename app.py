@@ -47,11 +47,11 @@ def add_item():
 
 @app.route('/delete_item', methods=['POST'])
 def delete_item():
-    new_item = request.form['item']
+    item_id = request.args['item_id']
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM todolist (item) VALUES (%s)", (new_item,))
+        cur.execute("DELETE FROM todolist WHERE todo_id = %s", (item_id,))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
