@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
@@ -42,19 +42,19 @@ def add_item():
         cur.execute("INSERT INTO todolist (item) VALUES (%s)", (new_item,))
     conn.commit()
     conn.close()
-    return redirect('/')
+    return redirect(url_for('index'))
 
 
-# @app.route('/delete_item', methods=['POST'])
-# def delete_item():
-#     new_item = request.form['item']
-#     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
-#                           os.environ["DB_PASS"], os.environ["DB_USER"])
-#     with conn.cursor() as cur:
-#         cur.execute("INSERT INTO todolist (item) VALUES (%s)", (new_item,))
-#     conn.commit()
-#     conn.close()
-#     return redirect('/')
+@app.route('/delete_item', methods=['POST'])
+def delete_item():
+    new_item = request.form['item']
+    conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
+                          os.environ["DB_PASS"], os.environ["DB_USER"])
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM todolist (item) VALUES (%s)", (new_item,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
 
 
 @app.errorhandler(404)

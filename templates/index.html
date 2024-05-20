@@ -8,11 +8,19 @@
     <h3>List:</h3>
     <ul id="items">
       {% for item in items %}
-      <li>{{ item.id }} {{ item.item }}</li>
+      <li>
+        {{ item.id }} {{ item.item }}
+        <form
+          action="{{ url_for('delete_item', item_id=item.id) }}"
+          method="post"
+        >
+          <button type="submit">Delete</button>
+        </form>
+      </li>
       {% endfor %}
     </ul>
     <h3>Add item</h3>
-    <form action="/add_item" method="post">
+    <form action="{{ url_for('add_item') }}" method="post">
       <label for="item">Item:</label>
       <input type="text" id="item" name="item" />
       <input type="submit" value="Add Item" />
