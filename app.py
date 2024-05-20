@@ -24,18 +24,13 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 
 @app.route('/')
 def index():
-    return render_template('index.html'), 200
-
-
-@app.route('/items')
-def get_items():
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
         cur.execute("SELECT todo_id as id, item FROM todolist;")
         all_items = cur.fetchall()
     conn.close()
-    return jsonify(all_items), 200
+    return render_template('index.html', items=all_items), 200
 
 
 @app.route('/add_item', methods=['POST'])
@@ -48,6 +43,18 @@ def add_item():
     conn.commit()
     conn.close()
     return redirect('/')
+
+
+# @app.route('/delete_item', methods=['POST'])
+# def delete_item():
+#     new_item = request.form['item']
+#     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
+#                           os.environ["DB_PASS"], os.environ["DB_USER"])
+#     with conn.cursor() as cur:
+#         cur.execute("INSERT INTO todolist (item) VALUES (%s)", (new_item,))
+#     conn.commit()
+#     conn.close()
+#     return redirect('/')
 
 
 @app.errorhandler(404)
