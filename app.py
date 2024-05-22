@@ -45,9 +45,8 @@ def add_item():
     return redirect(url_for('index'))
 
 
-@app.route('/delete_item', methods=['POST'])
-def delete_item():
-    item_id = request.args['item_id']
+@app.route('/delete_item/<int:item_id>', methods=['POST'])
+def delete_item(item_id):
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
