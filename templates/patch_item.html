@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Change item details</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <h2>Change item details:</h2>
+    <h4>New item:</h4>
+    <form action="/update_item/{{ item.id }}" method="post">
+      <label for="item">Item: </label>
+      <input type="text" id="item" name="item" />
+      <input type="submit" value="Update item" />
+    </form>
+  </body>
+</html>

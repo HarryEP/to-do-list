@@ -56,6 +56,27 @@ def delete_item(item_id):
     return redirect(url_for('index'))
 
 
+@app.route('/update_item/<int:item_id>', methods=['GET', 'POST'])
+def update_item(item_id):
+    conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
+                          os.environ["DB_PASS"], os.environ["DB_USER"])
+    if request.method == "GET":
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT todo_id as id, item FROM todolist WHERE todo_id = %s;", (item_id,))
+            item = cur.fetchone()
+        conn.close()
+        return render_template('patch_item.html', item=item)
+    elif request.method == "POST":
+        updated_item = request.form['item']
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE todolist SET item = %s WHERE todo_id = %s", (updated_item, item_id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('index'))
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
