@@ -26,6 +26,8 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 def index():
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
+    if conn is None:
+        return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute("SELECT todo_id as id, item FROM todo;")
         all_items = cur.fetchall()
@@ -38,6 +40,8 @@ def add_item():
     new_item = request.form['item']
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
+    if conn is None:
+        return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute("INSERT INTO todo (item) VALUES (%s)", (new_item,))
     conn.commit()
@@ -49,6 +53,8 @@ def add_item():
 def delete_item(item_id):
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
+    if conn is None:
+        return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute("DELETE FROM todo WHERE todo_id = %s", (item_id,))
     conn.commit()
@@ -60,6 +66,8 @@ def delete_item(item_id):
 def update_item(item_id):
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
+    if conn is None:
+        return 'Failure to connect to server', 500
     if request.method == "GET":
         with conn.cursor() as cur:
             cur.execute(
