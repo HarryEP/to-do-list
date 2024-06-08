@@ -10,6 +10,18 @@
   </head>
   <body>
     <h1>To do list page</h1>
+    <form action="/" method="get">
+      <label for="sort_by">Sort By:</label>
+      <select name="sort_by" id="sort_by">
+        <option value="item" {% if sort_by=="item" %}selected{% endif %}>
+          Item
+        </option>
+        <option value="date" {% if sort_by=="date" %}selected{% endif %}>
+          Date
+        </option>
+      </select>
+      <button type="submit">Sort</button>
+    </form>
     <h3>List:</h3>
     <ul id="items">
       {% for item in items %}

@@ -24,12 +24,14 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 
 @app.route('/')
 def index():
+    sort_by = request.args.get('sort_by', 'item')
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     if conn is None:
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
-        cur.execute("SELECT todo_id as id, item, created_at as date FROM todo;")
+        cur.execute(
+            f"SELECT todo_id as id, item, created_at as date FROM todo ORDER BY {sort_by};")
         all_items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=all_items), 200
