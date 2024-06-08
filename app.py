@@ -27,7 +27,7 @@ def index():
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
-        cur.execute("SELECT todo_id as id, item FROM todolist;")
+        cur.execute("SELECT todo_id as id, item FROM todo;")
         all_items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=all_items), 200
@@ -39,7 +39,7 @@ def add_item():
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO todolist (item) VALUES (%s)", (new_item,))
+        cur.execute("INSERT INTO todo (item) VALUES (%s)", (new_item,))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
@@ -50,7 +50,7 @@ def delete_item(item_id):
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM todolist WHERE todo_id = %s", (item_id,))
+        cur.execute("DELETE FROM todo WHERE todo_id = %s", (item_id,))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
@@ -63,7 +63,7 @@ def update_item(item_id):
     if request.method == "GET":
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT todo_id as id, item FROM todolist WHERE todo_id = %s;", (item_id,))
+                "SELECT todo_id as id, item FROM todo WHERE todo_id = %s;", (item_id,))
             item = cur.fetchone()
         conn.close()
         return render_template('patch_item.html', item=item)
@@ -71,7 +71,7 @@ def update_item(item_id):
         updated_item = request.form['item']
         with conn.cursor() as cur:
             cur.execute(
-                "UPDATE todolist SET item = %s WHERE todo_id = %s", (updated_item, item_id))
+                "UPDATE todo SET item = %s WHERE todo_id = %s", (updated_item, item_id))
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
