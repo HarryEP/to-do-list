@@ -29,7 +29,7 @@ def index():
     if conn is None:
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
-        cur.execute("SELECT todo_id as id, item FROM todo;")
+        cur.execute("SELECT todo_id as id, item, created_at as date FROM todo;")
         all_items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=all_items), 200
