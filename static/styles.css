@@ -1,11 +1,14 @@
 body {
   background-color: rgb(158, 96, 209);
+  text-align: center;
 }
 
-h1 {
-  color: rgb(255, 144, 231);
-}
-
+h1,
 h3 {
   color: rgb(255, 144, 231);
+  text-align: center;
+}
+
+#items li {
+  align-items: center;
 }
