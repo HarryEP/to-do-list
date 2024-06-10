@@ -27,6 +27,8 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 def index():
     '''sorts by and views all items in the database'''
     sort_by = request.args.get('sort_by', 'item')
+    if sort_by not in ['item', 'date', 'completed']:
+        sort_by = 'item'
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     if conn is None:
