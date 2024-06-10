@@ -1,8 +1,9 @@
+'''Flask application to run a to do list'''
+import os
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
-import os
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -17,13 +18,14 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
                                 user=user,
                                 cursor_factory=RealDictCursor)
         return conn
-    except psycopg2.Error as e:
-        print(f"Error {e} occured!")
+    except psycopg2.Error as err:
+        print(f"Error {err} occurred!")
         return None
 
 
 @app.route('/')
 def index():
+    '''sorts by and views all items in the database'''
     sort_by = request.args.get('sort_by', 'item')
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
@@ -39,6 +41,7 @@ def index():
 
 @app.route('/add_item', methods=['POST'])
 def add_item():
+    '''adds an item to the database'''
     new_item = request.form['item']
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
@@ -53,6 +56,7 @@ def add_item():
 
 @app.route('/delete_item/<int:item_id>', methods=['POST'])
 def delete_item(item_id):
+    '''removes selected item from the database'''
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     if conn is None:
@@ -66,6 +70,7 @@ def delete_item(item_id):
 
 @app.route('/update_item/<int:item_id>', methods=['GET', 'POST'])
 def update_item(item_id):
+    '''function to update a selected item in the database to request change'''
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     if conn is None:
@@ -77,7 +82,7 @@ def update_item(item_id):
             item = cur.fetchone()
         conn.close()
         return render_template('patch_item.html', item=item)
-    elif request.method == "POST":
+    if request.method == "POST":
         updated_item = request.form['item']
         with conn.cursor() as cur:
             cur.execute(
@@ -89,6 +94,7 @@ def update_item(item_id):
 
 @app.errorhandler(404)
 def page_not_found(error):
+    '''if 404 error, show this page'''
     return render_template('page_not_found.html'), 404
 
 
