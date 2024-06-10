@@ -8,12 +8,7 @@ CREATE TABLE IF NOT EXISTS todo (
     item TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     priority INT NOT NULL DEFAULT 1,
+    completed BOOLEAN DEFAULT FALSE,
+    completed_at TIMESTAMP,
     PRIMARY KEY (todo_id)
-);
-
-CREATE TABLE IF NOT EXISTS completed (
-    completed_id INT GENERATED ALWAYS AS IDENTITY,
-    item TEXT NOT NULL,
-    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (completed_id)
 );

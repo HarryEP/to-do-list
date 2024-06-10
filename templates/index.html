@@ -19,6 +19,9 @@
         <option value="date" {% if sort_by=="date" %}selected{% endif %}>
           Date
         </option>
+        <option value="completed" {% if sort_by=="completed" %}selected{% endif %}>
+          Completed
+        </option>
       </select>
       <button type="submit">Sort</button>
     </form>
@@ -28,18 +31,25 @@
       <li>
         {{ item.item }} {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }}
         <form
-          action="/delete_item/{{ item.id }}"
+          action="/complete_item/{{ item.id }}"
           method="post"
           style="display: inline"
         >
           <button type="submit">Task Complete</button>
         </form>
         <form
+          action="/delete_item/{{ item.id }}"
+          method="post"
+          style="display: inline"
+        >
+          <button type="submit">Delete Item</button>
+        </form>
+        <form
           action="/update_item/{{ item.id }}"
           method="get"
           style="display: inline"
         >
-          <button type="submit">Update item</button>
+          <button type="submit">Update Item</button>
         </form>
       </li>
       {% endfor %}

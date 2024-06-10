@@ -26,14 +26,14 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 @app.route('/')
 def index():
     '''sorts by and views all items in the database'''
-    sort_by = request.args.get('sort_by', 'item')
+    sort_by = request.args.get('sort_by', 'item', 'completed')
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     if conn is None:
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute(
-            f"SELECT todo_id as id, item, created_at as date FROM todo ORDER BY {sort_by};")
+            f"SELECT todo_id as id, item, created_at, completed as date FROM todo ORDER BY {sort_by};")
         all_items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=all_items), 200
@@ -49,6 +49,21 @@ def add_item():
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute("INSERT INTO todo (item) VALUES (%s)", (new_item,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
+
+@app.route('/complete_item/<int:item_id>', methods=['POST'])
+def complete_item(item_id):
+    '''marks the item as completed'''
+    conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
+                          os.environ["DB_PASS"], os.environ["DB_USER"])
+    if conn is None:
+        return 'Failure to connect to server', 500
+    with conn.cursor() as cur:
+        cur.execute(
+            "UPDATE todo SET completed = TRUE where todo_id = %s", (item_id,))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
