@@ -28,8 +28,8 @@
       <h3>List:</h3>
       <ul id="items">
         {% for item in items %}
-        <li>
-          {{ item.item }} Created at: {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }} Status: {{ 'COMPLETE' if item.completed else 'NOT COMPLETE'}}
+        <li class="{% if item.completed %}completed{% endif %}">
+          {{ item.item }} Created at: {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }}
           <form
             action="/complete_item/{{ item.id }}"
             method="post"

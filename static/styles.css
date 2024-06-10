@@ -13,3 +13,7 @@ h3 {
 #items li {
   align-items: center;
 }
+
+.completed {
+  color: rgb(0, 255, 0);
+}
