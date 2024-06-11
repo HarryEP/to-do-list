@@ -30,6 +30,9 @@
         {% for item in items %}
         <li class="{% if item.completed %}completed{% endif %}">
           {{ item.item }} Created at: {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }}
+          {% if item.completed %}
+            Completed at: {{ item.completed_at.strftime('%d-%m-%Y %H:%M:%S') }}
+          {% endif %}
           {% if not item.completed %}
           <form
             action="/complete_item/{{ item.id }}"
