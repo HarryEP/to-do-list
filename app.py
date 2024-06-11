@@ -65,7 +65,7 @@ def complete_item(item_id):
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute(
-            "UPDATE todo SET completed = TRUE where todo_id = %s", (item_id,))
+            "UPDATE todo SET completed = TRUE, completed_at = NOW() where todo_id = %s", (item_id,))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))

@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS todo (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     priority INT NOT NULL DEFAULT 1,
     completed BOOLEAN DEFAULT FALSE,
-    completed_at TIMESTAMP,
+    completed_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (todo_id)
 );
