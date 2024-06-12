@@ -35,7 +35,8 @@ def index():
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute(
-            f"SELECT todo_id as id, item, created_at as date, completed, completed_at, priority FROM todo ORDER BY {sort_by};")
+            f"""SELECT todo_id as id, item, created_at as date, completed, completed_at, priority
+              FROM todo ORDER BY {sort_by};""")
         all_items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=all_items), 200
