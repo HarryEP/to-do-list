@@ -14,6 +14,12 @@
     <form action="/update_item/{{ item.id }}" method="post">
       <label for="item">Item: </label>
       <input type="text" id="item" name="item" />
+      <label for="priority">Priority:</label>
+      <select name="priority" id="priority">
+        <option value="1" selected>Low</option>
+        <option value="2">Medium</option>
+        <option value="3">High</option>
+      </select>
       <input type="submit" value="Update item" />
     </form>
   </body>

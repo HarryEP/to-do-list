@@ -98,7 +98,8 @@ def update_item(item_id):
     if request.method == "GET":
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT todo_id as id, item FROM todo WHERE todo_id = %s;", (item_id,))
+                """SELECT todo_id as id, item, priority
+                FROM todo WHERE todo_id = %s;""", (item_id,))
             item = cur.fetchone()
         conn.close()
         return render_template('patch_item.html', item=item)
