@@ -32,7 +32,15 @@
       <ul id="items">
         {% for item in items %}
         <li class="{% if item.completed %}completed{% endif %}">
-          {{ item.item }} Created at: {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }}
+          {{ item.item }} (Priority: 
+          {% if item.priority == 1 %}
+            Low
+          {% elif item.priority == 2 %}
+            Medium
+          {% elif item.priority == 3 %}
+            High
+          {% endif %})
+          Created at: {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }}
           {% if item.completed %}
             Completed at: {{ item.completed_at.strftime('%d-%m-%Y %H:%M:%S') }}
           {% endif %}
