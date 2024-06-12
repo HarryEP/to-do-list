@@ -65,6 +65,12 @@
       <form action="{{ url_for('add_item') }}" method="post">
         <label for="item">Item:</label>
         <input type="text" id="item" name="item" />
+        <label for="priority">Priority:</label>
+        <select name="priority" id="priority">
+          <option value="1" selected>Low</option>
+          <option value="2">Medium</option>
+          <option value="3">High</option>
+        </select>
         <input type="submit" value="Add Item" />
       </form>
     </body>
