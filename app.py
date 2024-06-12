@@ -27,7 +27,7 @@ def get_connection(host: str, db_name: str, password: str, user: str) -> connect
 def index():
     '''sorts by and views all items in the database'''
     sort_by = request.args.get('sort_by', 'item')
-    if sort_by not in ['item', 'date', 'completed']:
+    if sort_by not in ['item', 'date', 'completed', 'priority']:
         sort_by = 'item'
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
@@ -35,7 +35,7 @@ def index():
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
         cur.execute(
-            f"SELECT todo_id as id, item, created_at as date, completed, completed_at FROM todo ORDER BY {sort_by};")
+            f"SELECT todo_id as id, item, created_at as date, completed, completed_at, priority FROM todo ORDER BY {sort_by};")
         all_items = cur.fetchall()
     conn.close()
     return render_template('index.html', items=all_items), 200
