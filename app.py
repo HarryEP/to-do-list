@@ -45,12 +45,14 @@ def index():
 def add_item():
     '''adds an item to the database'''
     new_item = request.form['item']
+    priority = int(request.form['priority'])
     conn = get_connection(os.environ["DB_HOST"], os.environ["DB_NAME"],
                           os.environ["DB_PASS"], os.environ["DB_USER"])
     if conn is None:
         return 'Failure to connect to server', 500
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO todo (item) VALUES (%s)", (new_item,))
+        cur.execute(
+            "INSERT INTO todo (item, priority) VALUES (%s, %s)", (new_item, priority))
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
