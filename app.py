@@ -119,6 +119,11 @@ def page_not_found(error):
     return render_template('page_not_found.html'), 404
 
 
+@app.errorhandler(500)
+def internal_error(error):
+    '''if 500 error, show this page'''
+    return render_template('internal_error.html'), 500
+
 if __name__ == "__main__":
     load_dotenv()
     app.run(debug=True)
