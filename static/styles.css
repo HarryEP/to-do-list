@@ -18,4 +18,5 @@ h3 {
 
 .completed {
   color: rgb(0, 180, 0);
+  font-style: italic;
 }
