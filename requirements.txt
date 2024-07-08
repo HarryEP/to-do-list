@@ -3,3 +3,5 @@ psycopg2-binary
 psycopg2
 python-dotenv
 pylint
+pytest
+pytest-flask
