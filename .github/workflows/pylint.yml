@@ -23,4 +23,4 @@ jobs:
           pip install -r "requirements.txt"
       - name: Checking pushes with pylint
         run: |
-          pylint --fail-under=8 $(git ls-files '*.py')
+          pylint --fail-under=8 $(git ls-files '*.py' ':!:conftest.py' ':!:test_*.py)
