@@ -10,16 +10,28 @@ def test_get_home_route_returns_successful_status_code(test_api):
 
 
 @patch('app.get_connection')
-def test_post_item_successfully_adds_item(mock_get_connection, test_api):
+def test_post_item_adds_item(mock_get_connection, test_api):
     mock_conn = MagicMock()
     mock_get_connection.return_value = mock_conn
 
     new_data = {'item': 'Test Item', 'priority': '1'}
-    res = test_api.post("/add_item", data=new_data)
+    response = test_api.post("/add_item", data=new_data)
 
-    assert res.status_code == 302
-    assert res.location.endswith('/')
+    assert response.status_code == 302
+    assert response.location.endswith('/')
     mock_conn.commit.assert_called_once()
+
+
+@patch('app.get_connection')
+def test_completing_an_item(mock_get_connection, test_api):
+    mock_conn = MagicMock()
+    mock_get_connection.return_value = mock_conn
+
+    response = test_api.post('/complete_item/1')
+    assert response.status_code == 302
+    assert response.location.endswith('/')
+    mock_get_connection.assert_called_once()
+    mock_conn.cursor.assert_called_once()
 
 
 def test_404(test_api):
