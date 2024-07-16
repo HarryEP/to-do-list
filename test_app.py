@@ -34,6 +34,18 @@ def test_completing_an_item(mock_get_connection, test_api):
     mock_conn.cursor.assert_called_once()
 
 
+@patch('app.get_connection')
+def test_deletion_of_item(mock_get_connection, test_api):
+    mock_conn = MagicMock()
+    mock_get_connection.return_value = mock_conn
+
+    response = test_api.post('/delete_item/1')
+    assert response.status_code == 302
+    assert response.location.endswith('/')
+    mock_get_connection.assert_called_once()
+    mock_conn.cursor.assert_called_once()
+
+
 def test_404(test_api):
     response = test_api.get('/error')
     assert response.status_code == 404
