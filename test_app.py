@@ -35,6 +35,18 @@ def test_completing_an_item(mock_get_connection, test_api):
 
 
 @patch('app.get_connection')
+def test_post_item_has_missing_data(mock_get_connection, test_api):
+    mock_conn = mock_get_connection.return_value
+    mock_cur = mock_conn.cursor.return_value
+
+    new_data = {'item': ''}
+    response = test_api.post("/add_item", data=new_data)
+
+    assert response.status_code == 400
+    mock_conn.commit.assert_not_called()
+
+
+@patch('app.get_connection')
 def test_deletion_of_item(mock_get_connection, test_api):
     mock_conn = MagicMock()
     mock_get_connection.return_value = mock_conn
