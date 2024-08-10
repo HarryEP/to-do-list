@@ -114,15 +114,16 @@ def update_item(item_id):
 
 
 @app.errorhandler(404)
-def page_not_found(error):
+def page_not_found(error):  # pylint: disable=unused-argument
     '''if 404 error, show this page'''
     return render_template('page_not_found.html'), 404
 
 
 @app.errorhandler(500)
-def internal_error(error):
+def internal_error(error):  # pylint: disable=unused-argument
     '''if 500 error, show this page'''
     return render_template('internal_error.html'), 500
+
 
 if __name__ == "__main__":
     load_dotenv()
