@@ -111,6 +111,7 @@ def update_item(item_id):
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
+    return '', 204
 
 
 @app.errorhandler(404)
