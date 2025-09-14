@@ -47,3 +47,5 @@ Possible updates include:
 - Different users
 - Access online
 - Other suggestions (feel free to message me with suggestions if you have any)
+- Shopping list feature
+- Clear all
