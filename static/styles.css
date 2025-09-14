@@ -19,3 +19,18 @@ h3 {
   color: rgb(0, 180, 0);
   font-style: italic;
 }
+
+.priority-low {
+  color: green;
+  font-weight: bold;
+}
+
+.priority-medium {
+  color: goldenrod; /* yellow-ish */
+  font-weight: bold;
+}
+
+.priority-high {
+  color: red;
+  font-weight: bold;
+}

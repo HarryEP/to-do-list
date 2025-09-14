@@ -33,13 +33,21 @@
         {% for item in items %}
         <li class="{% if item.completed %}completed{% endif %}">
           {{ item.item }} (Priority: 
-          {% if item.priority == 1 %}
-            Low
-          {% elif item.priority == 2 %}
-            Medium
-          {% elif item.priority == 3 %}
-            High
-          {% endif %})
+<span class="
+  {% if item.priority == 1 %}priority-low
+  {% elif item.priority == 2 %}priority-medium
+  {% elif item.priority == 3 %}priority-high
+  {% endif %}
+">
+  {% if item.priority == 1 %}
+    Low
+  {% elif item.priority == 2 %}
+    Medium
+  {% elif item.priority == 3 %}
+    High
+  {% endif %}
+</span>
+)
           Created at: {{ item.date.strftime('%d-%m-%Y %H:%M:%S') }}
           {% if item.completed %}
             Completed at: {{ item.completed_at.strftime('%d-%m-%Y %H:%M:%S') }}
