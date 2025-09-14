@@ -49,3 +49,4 @@ Possible updates include:
 - Other suggestions (feel free to message me with suggestions if you have any)
 - Shopping list feature
 - Clear all
+- Sort order
